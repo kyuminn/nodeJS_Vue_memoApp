@@ -31,6 +31,11 @@ app.put('/api/memos/:id',async(req,res)=>{
     res.send(result);
 });
 
+app.delete('/api/memos/:id',async(req,res)=>{
+    await database.run('delete from memos where id=?',[req.params.id]);
+    const result = await database.run("select * from memos");
+    res.send(result);
+})
 
 app.listen(port,()=>{
     console.log(`Memo App listening at http://localhost:${port}`);

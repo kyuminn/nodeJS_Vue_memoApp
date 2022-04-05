@@ -4,9 +4,12 @@
             <button class="btn btn-primary" @click="add()">+메모 추가</button>
         </div>
         <ul>
-            <li v-for="d in state.data" :key="d.id" @click="edit(d.id)">{{d.content}}
+            <li v-for="d in state.data" :key="d.id">{{d.content}}
+                <button type="button" @click="edit(d.id)">수정</button>
+                <button type="button" @click="del(d.id)">삭제</button>
             </li>
         </ul>
+
     </div>
 </template>
 <!--scss 를 주면 memo ul 안에 li 영역을 따로 사용할 수 있음
@@ -36,10 +39,10 @@ npm i sass-loader@10.2.0 -D
 
             const content = prompt("내용을 입력해주세요");
 
-            if(!content){
-                alert("내용을 입력해주세요");
-                return add();
-            };
+            // if(!content){
+            //     alert("내용을 입력해주세요");
+            //     return add();
+            // };
 
 
             axios.post("/api/memos",{content}).then((res)=>{
@@ -49,13 +52,21 @@ npm i sass-loader@10.2.0 -D
             };
 
             const edit = (id)=>{
-            const content = prompt('내용을 입력해주세요',state.data.find(d=>d.id===id).content);
-            console.log(content);
-            // data 수정시 사용하는 method : put
-            axios.put("/api/memos/"+id,{content}).then((res)=>{
-                state.data = res.data;
+                const content = prompt('내용을 입력해주세요',state.data.find(d=>d.id===id).content);
+                console.log(content);
+                // data 수정시 사용하는 method : put
+                axios.put("/api/memos/"+id,{content}).then((res)=>{
+                    state.data = res.data;
             });
         };
+
+            const del =(id)=>{
+                alert('삭제하겠습니다!');
+                axios.delete("/api/memos/"+id).then((res)=>{
+                    state.data = res.data;
+                });
+                
+            };
 
 
             //front-end 에서 back-end 에 데이터 요청하는 것!
@@ -64,7 +75,7 @@ npm i sass-loader@10.2.0 -D
                 state.data = res.data;
             });
             
-            return {state,add,edit};
+            return {state,add,edit,del};
         },
     }
 </script>

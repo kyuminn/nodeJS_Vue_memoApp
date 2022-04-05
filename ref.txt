@@ -1,0 +1,100 @@
+https://www.youtube.com/watch?v=ADxbGlwhl_s
+
+vue3, nodeJS, mariaDB를 이용해서 메모 앱 만들어보기 
+
+
+1. VSCODE 설치
+2. nodeJS 설치 (나는 v12 LTS. 강의에서는 v16.13.1 LTS ver 사용)
+3. vue-cli 설치
+    - npm install -g @vue/cli     
+    -> vue/cli@5.0.4 ver 설치됨
+4. vue- cli로 vue project 생성
+    - q : 알아서 node js-vue 기반으로 된 project 와 그 구조를 만들어주는 건가 ?
+    - vue create front-end  : front-end라는 이름의 project를 생성해줌!
+
+
+[error troubleshooting]
+Component name should always be multi-word  vue/multi-word-component-names
+=> https://godffs.tistory.com/3475 (vue.config.js 에 lintOnSave:false 추가)
+
+-------------------------------------------------------------------------------------
+
+[bootstrap]
+https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css
+
+/projectname/public/index.html 의 head tag안에 이거 붙여넣기
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css">
+
+
+5. front-end 부분 작업 완료 시 back end 구축하기
+현 위치 front-end 이면
+cd ../
+mkdir back-end
+cd back-end
+npm init
+그 다음 나오는 것들 일단 enter 
+index.js 생성
+express 를 사용해서 node js 에서 web server 띄워보기
+
+위치:back-end
+npm install express --save
+
+index.js 에 내용 채워넣고
+터미널에서 server 시작
+node index.js 
+=> localhost:portNumber 에서 확인 가능!
+
+q: npm init 의 역할이 뭐지?
+front end 에서는 vue project를 만들어야 하니까 vue-cli로  vue create projectName을 사용하는거 같긴 한데..
+back end 에서 npm init 의 역할 : node js project에서 필요한 package.json을 생성해주는 역할!
+만약에 엔터 치기 싫으면 npm init -y 해주면 됨.
+
+
+현재까지 상황 정리
+
+front-end : localhost:8080
+
+back-end : localhost:3000
+
+                    http request
+front end part                           back-end part
+                ----------------------> 
+localhost:8080                          localhost:3000
+                <----------------------
+                    http response
+
+
+6. front-end에 axios 설치
+
+npm install axios
+axios: front-back 사이 http 통신을 할 수 있게 해주는 module 이라고 생각하면 됨
+
+cf) axios 사용시 개발자 도구 console 에 CORS policy error 나올 경우
+proxy 사용!
+
+vue.config.js에 내용 추가
+    devServer:{
+    proxy:{
+      "/api":{
+        target:"http://localhost:3000"
+      }
+    }
+  },
+
+
+
+cf ) back-end run : node index.js / (script에 지정해준 경우 보통 npm start를 사용)
+     front-end run : npm run serve
+
+7. DB!!!!
+-- 강의에서는 mariaDB로 하긴 했는데
+-- ESOF 포털에 맞춰서 MySQL로 변경해봄
+
+[MySql local에 설치]
+https://ansan-survivor.tistory.com/1130
+
+[nodeJS에 Mysql]
+https://berkbach.com/node-js%EC%97%90%EC%84%9C-mysql-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-1-b4b69ce7433f
+
+back-end 에서
+npm install mysql
