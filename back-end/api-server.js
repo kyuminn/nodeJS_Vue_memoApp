@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 // npm i body-parser
 const database = require('./database');
 
-const memos= [];
+
 // request 의 body는 bodyParser를 이용하여 처리하므로 req 안에 있는 값을 가져올 때는 
 // bodyParser module을 추가해주어야 한다!!
 app.use(bodyParser.json());

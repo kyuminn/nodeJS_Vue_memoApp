@@ -35,47 +35,43 @@ npm i sass-loader@10.2.0 -D
             const state=reactive({
                 data:[]
             });
-            const add = () => {
-
-            const content = prompt("내용을 입력해주세요");
-
-            // if(!content){
-            //     alert("내용을 입력해주세요");
-            //     return add();
-            // };
-
-
-            axios.post("/api/memos",{content}).then((res)=>{
-                console.log(res);
-                state.data = res.data;
-                });
-            };
-
-            const edit = (id)=>{
-                const content = prompt('내용을 입력해주세요',state.data.find(d=>d.id===id).content);
-                console.log(content);
-                // data 수정시 사용하는 method : put
-                axios.put("/api/memos/"+id,{content}).then((res)=>{
-                    state.data = res.data;
-            });
-        };
-
-            const del =(id)=>{
-                alert('삭제하겠습니다!');
-                axios.delete("/api/memos/"+id).then((res)=>{
-                    state.data = res.data;
-                });
-                
-            };
-
 
             //front-end 에서 back-end 에 데이터 요청하는 것!
             axios.get("/api/memos").then((res)=>{
                 console.log(res);
                 state.data = res.data;
             });
-            
-            return {state,add,edit,del};
+
+            const add = () => {
+                const content = prompt("내용을 입력해주세요");
+                axios.post("/api/memos",{content}).then((res)=>{
+                    console.log(res);
+                    state.data = res.data;
+                    });
+                };
+
+            const edit =(id)=>{
+                const content = prompt('내용을 입력해주세요',state.data.find(d=>d.id===id).content);
+                console.log(content);
+                // data 수정시 사용하는 method : put
+                axios.put("/api/memos/"+id,{content}).then((res)=>{
+                    state.data = res.data;
+                });
+            };
+
+            const del =(id)=>{
+                
+                alert(state.data.find(d=>d.id===id).content+': 삭제하겠습니다!');
+                axios.delete("/api/memos/"+id).then((res)=>{
+                    state.data = res.data;
+                });               
+            };
+
+            return {state,
+                    add,
+                    edit,
+                    del
+                };
         },
     }
 </script>
