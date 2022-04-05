@@ -1,3 +1,5 @@
+
+<!-- localhost:8080 접속 시 화면 볼 수 있음!-->
 <template>
   <div class="app">
     <Ground/>
